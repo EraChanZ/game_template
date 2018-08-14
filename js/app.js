@@ -6,7 +6,6 @@ import '../styles/index.css'
 
 // Пиксель - не пиксель https://habr.com/post/229359/
 const ratio = window.devicePixelRatio;
-
 // Создаём наш мир
 const world = new World();
 
@@ -52,10 +51,21 @@ document.addEventListener('keydown', (ev) => {
 document.addEventListener('keyup', (ev) => {
     keys[ev.key] = false;
 }, false);
-
+function setCanvasSize() {
+    const canvas = renderer.view;
+    canvas.width = window.innerWidth * 2;
+    canvas.height = window.innerHeight * 2;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    renderer.resize(window.innerWidth, window.innerHeight);
+    world.player.x = window.innerWidth / 2;
+    world.player.y = window.innerHeight / 2;
+}
+window.onresize = (ev) => {
+    setCanvasSize()
+};
 // Начинаем рисовать!
 animate();
-
 // Wait for document loaded
 window.onload = function () {
     // Достаём <div id="main"/> и суём туда canvas из renderer
@@ -67,4 +77,5 @@ window.onload = function () {
     canvas.height = logicalHeight * 2;
     canvas.style.width = logicalWidth + 'px';
     canvas.style.height = logicalHeight + 'px';
+    setCanvasSize()
 };
